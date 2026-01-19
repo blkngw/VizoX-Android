@@ -1,0 +1,22 @@
+name: Build APK
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build with Buildozer
+        uses: ArtemSBulgakov/buildozer-action@v1
+        with:
+          buildozer_version: stable
+          python_version: 3.10
+          command: buildozer android debug
+          repository_display_name: VizoX
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: VizoX-package
+          path: bin/*.apk
